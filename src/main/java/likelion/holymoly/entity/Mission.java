@@ -19,13 +19,9 @@ public class Mission extends BaseTimeEntity {
 
     private String description;
 
-    @Column(nullable = false)
-    private int sequence;
-
     @Builder
-    public Mission(String name, String description, int sequence) {
+    public Mission(String name, String description) {
         this.name = name;
         this.description = description;
-        this.sequence = sequence;
     }
 }
