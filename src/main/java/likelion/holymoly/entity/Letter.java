@@ -16,7 +16,7 @@ public class Letter extends BaseTimeEntity{
 
     @ManyToOne
     @JoinColumn(name = "invitation_id", nullable = false)
-    private Invitation invitation;
+    private Board board;
 
     @Column(nullable = false)
     private String content;
@@ -25,8 +25,8 @@ public class Letter extends BaseTimeEntity{
     private String authorNickname;
 
     @Builder
-    public Letter(Invitation invitation, String content, String authorNickname) {
-        this.invitation = invitation;
+    public Letter(Board board, String content, String authorNickname) {
+        this.board = board;
         this.content = content;
         this.authorNickname = authorNickname;
     }

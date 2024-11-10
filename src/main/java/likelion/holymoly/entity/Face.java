@@ -11,8 +11,8 @@ public class Face {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "element_id")
-    private Long elementId;
+    @Column(name = "face_id")
+    private Long faceId;
 
     @Column(name = "face_name", nullable = false)
     private String name;

@@ -11,8 +11,8 @@ public class Clothes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "element_id")
-    private Long elementId;
+    @Column(name = "clothes_id")
+    private Long clothesId;
 
     @Column(name = "clothes_name", nullable = false)
     private String name;

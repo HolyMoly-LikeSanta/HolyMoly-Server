@@ -7,12 +7,12 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Invitation extends BaseTimeEntity {
+public class Board extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "invitation_id")
-    private Long invitationId;
+    @Column(name = "board_id")
+    private Long boardId;
 
     @ManyToOne
     @JoinColumn(name = "mission_id", nullable = false)
@@ -30,7 +30,7 @@ public class Invitation extends BaseTimeEntity {
     private ColorTheme colorTheme;
 
     @Builder
-    public Invitation(Mission mission, Member member, String nickname, ColorTheme colorTheme) {
+    public Board(Mission mission, Member member, String nickname, ColorTheme colorTheme) {
         this.mission = mission;
         this.member = member;
         this.nickname = nickname;
