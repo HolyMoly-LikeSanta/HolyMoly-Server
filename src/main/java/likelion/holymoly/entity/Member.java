@@ -5,6 +5,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
@@ -19,15 +20,11 @@ public class Member {
     private Character character;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String email;
 
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
-
-    @Builder
-    public Member(Character character, String email, String profileImage) {
-        this.character = character;
-        this.email = email;
-        this.profileImage = profileImage;
-    }
 }
