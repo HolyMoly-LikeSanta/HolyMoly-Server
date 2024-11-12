@@ -3,14 +3,17 @@ package likelion.holymoly.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import likelion.holymoly.dto.BoardDto;
 import likelion.holymoly.dto.LetterDto;
 import likelion.holymoly.entity.Board;
 import likelion.holymoly.entity.Letter;
 import likelion.holymoly.service.BoardService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -58,8 +61,13 @@ public class BoardController {
 
     @Operation(summary = "편지 삭제", description = "보드 ID와 편지 ID로 보드에서 편지를 삭제합니다.")
     @DeleteMapping("/{boardId}/letter/{letterId}")
-    public ResponseEntity<String> deleteLetter(@PathVariable Long boardId, @PathVariable Long letterId) {
-        boardService.deleteLetter(boardId, letterId);
-        return ResponseEntity.ok("편지가 성공적으로 삭제되었습니다");
+    public ResponseEntity<?> deleteLetter(@PathVariable Long boardId, @PathVariable Long letterId) {
+        try {
+            boardService.deleteLetter(boardId, letterId);
+            return ResponseEntity.ok(Collections.singletonMap("message", "편지가 성공적으로 삭제되었습니다."));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("error", "해당 편지를 찾을 수 없습니다."));
+        }
     }
 }
