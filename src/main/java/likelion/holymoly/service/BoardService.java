@@ -13,7 +13,7 @@ import likelion.holymoly.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -51,5 +51,15 @@ public class BoardService {
                 .build();
 
         return letterRepository.save(letter);
+    }
+
+    public Board getBoardById(Long boardId) {
+        return boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("Board not found"));
+    }
+
+    public List<Letter> getAllLettersByBoardId(Long boardId) {
+        Board board = getBoardById(boardId);
+        return letterRepository.findByBoard(board);
     }
 }
