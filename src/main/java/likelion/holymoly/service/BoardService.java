@@ -1,5 +1,6 @@
 package likelion.holymoly.service;
 
+import jakarta.transaction.Transactional;
 import likelion.holymoly.dto.BoardDto;
 import likelion.holymoly.dto.LetterDto;
 import likelion.holymoly.entity.Board;
@@ -61,5 +62,20 @@ public class BoardService {
     public List<Letter> getAllLettersByBoardId(Long boardId) {
         Board board = getBoardById(boardId);
         return letterRepository.findByBoard(board);
+    }
+
+    @Transactional
+    public void deleteLetter(Long boardId, Long letterId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("Board not found"));
+
+        Letter letter = letterRepository.findById(letterId)
+                .orElseThrow(() -> new IllegalArgumentException("Letter not found"));
+
+        if (!letter.getBoard().equals(board)) {
+            throw new IllegalArgumentException("Letter does not belong to the specified board");
+        }
+
+        letterRepository.delete(letter);
     }
 }

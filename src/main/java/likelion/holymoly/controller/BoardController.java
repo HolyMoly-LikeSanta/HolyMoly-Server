@@ -55,4 +55,11 @@ public class BoardController {
         Letter createdLetter = boardService.createLetter(boardId, letterDto);
         return ResponseEntity.ok(createdLetter);
     }
+
+    @Operation(summary = "편지 삭제", description = "보드 ID와 편지 ID로 보드에서 편지를 삭제합니다.")
+    @DeleteMapping("/{boardId}/letter/{letterId}")
+    public ResponseEntity<String> deleteLetter(@PathVariable Long boardId, @PathVariable Long letterId) {
+        boardService.deleteLetter(boardId, letterId);
+        return ResponseEntity.ok("편지가 성공적으로 삭제되었습니다");
+    }
 }
