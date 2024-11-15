@@ -24,10 +24,6 @@ public class JwtProviderUtil {
 
     @Value("${jwt.expiration.access}")
     private Long accessExpiration;
-    @Value("${jwt.expiration.refresh}")
-    private Long refreshExpiration;
-    @Value("${jwt.expiration.refresh-date}")
-    private Long refreshRenewalDate;
 
     public JwtProviderUtil(@Value("${jwt.secret}") String secretKey, UserDetailsService userDetailsService) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);

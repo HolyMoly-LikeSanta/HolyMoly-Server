@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: secret
   datasource:
     url: jdbc:h2:~/test-holy # H2 데이터베이스를 embedded 모드로 설정
     driver-class-name: org.h2.Driver

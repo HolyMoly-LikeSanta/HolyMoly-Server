@@ -13,9 +13,9 @@ import java.util.LinkedHashMap;
 
 @Component
 public class KakaoOAuthUtil {
-    @Value("{kakao.oauth.client_id")
+    @Value("${kakao.oauth.client_id}")
     private String clientId;
-    @Value("{kakao.oauth.redirect_url}")
+    @Value("${kakao.oauth.redirect_url}")
     private String redirectUrl;
     private final String kakaoOauthUrl = "https://kauth.kakao.com/oauth/token";
     private final String kakaoDataUrl = "https://kapi.kakao.com/v2/user/me";

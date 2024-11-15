@@ -43,14 +43,14 @@ public class MemberService {
         String kakaoAccessToken = null;
         try {
             kakaoAccessToken = kakaoOAuthUtil.fetchKakaoAccessToken(request.getCode());
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             throw new CustomException(ErrorCode.KAKAO_FETCH_ACCESS_TOKEN_FAIL);
         }
 
         LinkedHashMap<String, Object> response = null;
         try {
             response = kakaoOAuthUtil.fetchKakaoUserData(kakaoAccessToken);
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             throw new CustomException(ErrorCode.KAKAO_FETCH_USER_DATA_FAIL);
         }
 
