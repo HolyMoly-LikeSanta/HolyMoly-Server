@@ -64,6 +64,10 @@ public class MemberService {
         LinkedHashMap<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response.get("kakao_account");
         LinkedHashMap<String, Object> profile = (LinkedHashMap<String, Object>) kakaoAccount.get("profile");
 
+        System.out.println(kakaoId);
+        System.out.println(profile.get("nickname").toString());
+        System.out.println(profile.get("profile_image_url").toString());
+
         // kakaoId가 같은 Member가 존재 : 기존 멤버
         Member existedMember = memberRepository.findByKakaoId(kakaoId).orElse(null);
         if (existedMember != null) {
@@ -84,6 +88,7 @@ public class MemberService {
     public TokenResponse generateToken(Member member) throws CustomException {
         UserDetails userDetails;
         try {
+            System.out.println(member.getKakaoId());
             userDetails = userDetailsService.loadUserByUsername(member.getKakaoId());
         } catch (UsernameNotFoundException e) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
