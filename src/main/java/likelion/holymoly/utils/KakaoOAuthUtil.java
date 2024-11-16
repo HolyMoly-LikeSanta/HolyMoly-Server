@@ -31,6 +31,8 @@ public class KakaoOAuthUtil {
         params.add("redirect_uri", redirectUrl);
         params.add("code", code);
 
+        System.out.println(code);
+
         HttpEntity<?> http = new HttpEntity<>(params, headers);
         URI uri = new URI(kakaoOauthUrl);
 
