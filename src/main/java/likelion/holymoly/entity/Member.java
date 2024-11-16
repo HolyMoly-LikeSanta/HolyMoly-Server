@@ -24,7 +24,7 @@ public class Member {
     private String name;
 
     @Column(nullable = false)
-    private String email;
+    private String kakaoId;
 
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
