@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 @PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 public class UserController {
-    private MemberService memberService;
+    private final MemberService memberService;
 
     @Operation(summary = "유저 정보 조회", description = "자신의 유저 정보를 조회합니다.")
     @GetMapping("/me")
