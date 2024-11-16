@@ -14,26 +14,12 @@ public class Board extends BaseTimeEntity {
     @Column(name = "board_id")
     private Long boardId;
 
-    @ManyToOne
-    @JoinColumn(name = "mission_id", nullable = false)
-    private Mission mission;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "member_id", nullable = false, unique = true)
     private Member member;
 
-    @Column(length = 10, nullable = false)
-    private String nickname;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "color_theme", nullable = false)
-    private ColorTheme colorTheme;
-
     @Builder
-    public Board(Mission mission, Member member, String nickname, ColorTheme colorTheme) {
-        this.mission = mission;
+    public Board(Member member) {
         this.member = member;
-        this.nickname = nickname;
-        this.colorTheme = colorTheme;
     }
 }

@@ -20,7 +20,7 @@ public class BackgroundDto {
                 background.getBgId(),
                 background.getName(),
                 background.getImageUrl(),
-                background.getDescription()
+                background.getColor()
         );
     }
 }

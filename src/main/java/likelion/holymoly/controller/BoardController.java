@@ -31,7 +31,7 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public ResponseEntity<BoardDto> getBoardById(@PathVariable Long boardId) {
         Board board = boardService.getBoardById(boardId);
-        BoardDto boardDto = new BoardDto(board.getMission().getMissionId(), board.getMember().getId(), board.getNickname(), board.getColorTheme());
+        BoardDto boardDto = new BoardDto(board.getMember().getId());
         return ResponseEntity.ok(boardDto);
     }
 

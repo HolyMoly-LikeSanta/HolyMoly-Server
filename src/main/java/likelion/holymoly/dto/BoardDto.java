@@ -9,8 +9,5 @@ import likelion.holymoly.entity.ColorTheme;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardDto {
-    private Long missionId;
     private Long memberId;
-    private String nickname;
-    private ColorTheme colorTheme;
 }
