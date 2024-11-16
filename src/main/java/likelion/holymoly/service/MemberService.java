@@ -48,6 +48,8 @@ public class MemberService {
             throw new CustomException(ErrorCode.KAKAO_FETCH_ACCESS_TOKEN_FAIL);
         }
 
+        System.out.println(kakaoAccessToken);
+
         LinkedHashMap<String, Object> response = null;
         try {
             response = kakaoOAuthUtil.fetchKakaoUserData(kakaoAccessToken);
@@ -55,6 +57,8 @@ public class MemberService {
             System.out.println(e.getMessage());
             throw new CustomException(ErrorCode.KAKAO_FETCH_USER_DATA_FAIL);
         }
+
+        System.out.println(response);
 
         LinkedHashMap<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response.get("kako_account");
 
