@@ -1,11 +1,12 @@
 package likelion.holymoly.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
-@Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class KakaoLoginRequest {
     @NotNull
     private String code;

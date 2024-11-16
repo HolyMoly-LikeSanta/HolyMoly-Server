@@ -1,10 +1,11 @@
 package likelion.holymoly.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
-@Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CharacterItemRequest {
     private Long bgId;
     private Long headId;
