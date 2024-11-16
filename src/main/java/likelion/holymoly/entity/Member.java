@@ -23,6 +23,9 @@ public class Member {
     @Column(nullable = false)
     private String name;
 
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Board board;
+
     @Column(nullable = false)
     private String kakaoId;
 

@@ -3,6 +3,8 @@ package likelion.holymoly.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -14,26 +16,15 @@ public class Board extends BaseTimeEntity {
     @Column(name = "board_id")
     private Long boardId;
 
-    @ManyToOne
-    @JoinColumn(name = "mission_id", nullable = false)
-    private Mission mission;
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(length = 10, nullable = false)
-    private String nickname;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "color_theme", nullable = false)
-    private ColorTheme colorTheme;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Letter> letters;
 
     @Builder
-    public Board(Mission mission, Member member, String nickname, ColorTheme colorTheme) {
-        this.mission = mission;
+    public Board(Member member) {
         this.member = member;
-        this.nickname = nickname;
-        this.colorTheme = colorTheme;
     }
 }

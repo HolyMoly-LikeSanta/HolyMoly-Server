@@ -20,12 +20,12 @@ public class Background {
     @Column(name = "image_url")
     private String imageUrl;
 
-    private String description;
+    private String color;
 
     @Builder
-    public Background(String name, String imageUrl, String description) {
+    public Background(String name, String imageUrl, String color) {
         this.name = name;
         this.imageUrl = imageUrl;
-        this.description = description;
+        this.color = color;
     }
 }

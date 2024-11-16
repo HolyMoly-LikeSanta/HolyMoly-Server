@@ -1,15 +1,19 @@
 package likelion.holymoly.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import likelion.holymoly.dto.BoardDto;
 import likelion.holymoly.dto.LetterDto;
 import likelion.holymoly.entity.Board;
 import likelion.holymoly.entity.Letter;
+import likelion.holymoly.entity.Member;
 import likelion.holymoly.service.BoardService;
+import likelion.holymoly.service.MemberService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -22,33 +26,53 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final MemberService memberService;
 
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, MemberService memberService) {
         this.boardService = boardService;
+        this.memberService = memberService;
     }
 
     @Operation(summary = "게시판 조회", description = "boardId에 해당하는 게시판의 정보를 조회합니다.")
     @GetMapping("/{boardId}")
     public ResponseEntity<BoardDto> getBoardById(@PathVariable Long boardId) {
         Board board = boardService.getBoardById(boardId);
-        BoardDto boardDto = new BoardDto(board.getMission().getMissionId(), board.getMember().getId(), board.getNickname(), board.getColorTheme());
+
+        // 편지 리스트 변환
+        List<LetterDto> letters = board.getLetters().stream()
+                .map(letter -> new LetterDto(
+                        letter.getBoard().getBoardId(),
+                        letter.getContent(),
+                        letter.getAuthorNickname()))
+                .toList();
+
+        // BoardDto 생성
+        BoardDto boardDto = new BoardDto(
+                board.getBoardId(),
+                board.getMember().getId(),
+                board.getMember().getName(),
+                letters
+        );
+
         return ResponseEntity.ok(boardDto);
     }
 
-    @Operation(summary = "게시판 편지 리스트 조회", description = "boardId에 해당하는 게시판에 게시된 모든 편지들을 조회합니다.")
-    @GetMapping("/{boardId}/letter")
-    public ResponseEntity<List<LetterDto>> getAllLettersByBoardId(@PathVariable Long boardId) {
-        List<Letter> letters = boardService.getAllLettersByBoardId(boardId);
-        List<LetterDto> letterDtos = letters.stream()
-                .map(letter -> new LetterDto(letter.getBoard().getBoardId(), letter.getContent(), letter.getAuthorNickname()))
-                .toList();
-        return ResponseEntity.ok(letterDtos);
-    }
+//    @Operation(summary = "게시판 편지 리스트 조회", description = "boardId에 해당하는 게시판에 게시된 모든 편지들을 조회합니다.")
+//    @GetMapping("/{boardId}/letter")
+//    public ResponseEntity<List<LetterDto>> getAllLettersByBoardId(@PathVariable Long boardId) {
+//        List<Letter> letters = boardService.getAllLettersByBoardId(boardId);
+//        List<LetterDto> letterDtos = letters.stream()
+//                .map(letter -> new LetterDto(letter.getBoard().getBoardId(), letter.getContent(), letter.getAuthorNickname()))
+//                .toList();
+//        return ResponseEntity.ok(letterDtos);
+//    }
 
-    @Operation(summary = "초대장 생성", description = "초대장을 생성하고 그 내용을 바탕으로 게시판을 생성합니다.")
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "게시판 생성", description = "게시판을 생성하고 그 내용을 바탕으로 게시판을 생성합니다.")
     @PostMapping("/invite")
-    public ResponseEntity<Board> createBoard(@RequestBody BoardDto boardDto) {
-        Board createdBoard = boardService.createBoard(boardDto);
+    public ResponseEntity<Board> createBoard(@RequestBody BoardDto boardDto, @AuthenticationPrincipal UserDetails userDetails) {
+        Member myMember = memberService.getMemberByPrincipal(userDetails);
+        Board createdBoard = boardService.createBoard(boardDto, myMember);
         return ResponseEntity.ok(createdBoard);
     }
 
