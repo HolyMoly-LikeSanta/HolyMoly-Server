@@ -12,7 +12,7 @@ public class HeadDto {
     private Long headId;
     private String name;
     private String imageUrl;
-    private String description;
+    private String color;
 
     // Entity -> DTO 변환 메서드
     public static HeadDto fromEntity(Head head) {
@@ -20,7 +20,7 @@ public class HeadDto {
                 head.getHeadId(),
                 head.getName(),
                 head.getImageUrl(),
-                head.getDescription()
+                head.getColor()
         );
     }
 }

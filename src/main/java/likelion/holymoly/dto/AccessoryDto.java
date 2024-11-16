@@ -12,14 +12,14 @@ public class AccessoryDto {
     private Long accessoryId;
     private String name;
     private String imageUrl;
-    private String description;
+    private String color;
 
     public static AccessoryDto fromEntity(Accessory accessory) {
         return new AccessoryDto(
                 accessory.getAccessoryId(),
                 accessory.getName(),
                 accessory.getImageUrl(),
-                accessory.getDescription()
+                accessory.getColor()
         );
     }
 }

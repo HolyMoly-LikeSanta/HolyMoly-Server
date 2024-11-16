@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import likelion.holymoly.entity.ColorTheme;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardDto {
-    private Long missionId;
+    private Long boardId;
     private Long memberId;
-    private String nickname;
-    private ColorTheme colorTheme;
+    private String name;
+    private List<LetterDto> letters;
 }

@@ -12,14 +12,14 @@ public class FaceDto {
     private Long faceId;
     private String name;
     private String imageUrl;
-    private String description;
+    private String color;
 
     public static FaceDto fromEntity(Face face) {
         return new FaceDto(
                 face.getFaceId(),
                 face.getName(),
                 face.getImageUrl(),
-                face.getDescription()
+                face.getColor()
         );
     }
 }
