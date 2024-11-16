@@ -9,14 +9,14 @@ import lombok.Getter;
 public class MemberResponse {
     private Long memberId;
     private String name;
-    private String email;
+    private String kakaoId;
     private String profileImage;
 
     public static MemberResponse getMemberResponse(Member member) {
         return MemberResponse.builder()
                 .memberId(member.getId())
                 .name(member.getName())
-                .email(member.getEmail())
+                .kakaoId(member.getKakaoId())
                 .profileImage(member.getProfileImage())
                 .build();
     }
