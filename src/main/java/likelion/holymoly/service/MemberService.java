@@ -20,7 +20,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.net.URISyntaxException;
 import java.util.LinkedHashMap;
 
 @Service
@@ -60,22 +59,22 @@ public class MemberService {
 
         System.out.println(response);
 
-        LinkedHashMap<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response.get("kako_account");
+        String kakaoId = response.get("id").toString();
 
+        LinkedHashMap<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response.get("kakao_account");
         LinkedHashMap<String, Object> profile = (LinkedHashMap<String, Object>) kakaoAccount.get("profile");
-        String email = kakaoAccount.get("email").toString();
 
-        // email이 같은 Member가 존재 : 기존 멤버
-        Member existedMember = memberRepository.findByEmail(email).orElse(null);
+        // kakaoId가 같은 Member가 존재 : 기존 멤버
+        Member existedMember = memberRepository.findByKakaoId(kakaoId).orElse(null);
         if (existedMember != null) {
             return existedMember;
         }
 
-        // email이 같은 Member가 없음 : 새로 가입
+        // kakaoId가 같은 Member가 없음 : 새로 가입
         Member newMember = Member.builder()
                 .name(profile.get("nickname").toString())
-                .email(email)
-                .profileImage(profile.get("thumbnail_image_url").toString())
+                .kakaoId(kakaoId)
+                .profileImage(profile.get("profile_image_url").toString())
                 .build();
 
         memberRepository.save(newMember);
@@ -85,7 +84,7 @@ public class MemberService {
     public TokenResponse generateToken(Member member) throws CustomException {
         UserDetails userDetails;
         try {
-            userDetails = userDetailsService.loadUserByUsername(member.getEmail());
+            userDetails = userDetailsService.loadUserByUsername(member.getKakaoId());
         } catch (UsernameNotFoundException e) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
@@ -181,7 +180,7 @@ public class MemberService {
     }
 
     public Member getMemberByPrincipal(UserDetails userDetails) {
-        return memberRepository.findByEmail(userDetails.getUsername())
+        return memberRepository.findByKakaoId(userDetails.getUsername())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 }
