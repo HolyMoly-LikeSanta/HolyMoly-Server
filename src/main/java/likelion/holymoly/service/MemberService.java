@@ -44,6 +44,7 @@ public class MemberService {
         try {
             kakaoAccessToken = kakaoOAuthUtil.fetchKakaoAccessToken(request.getCode());
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new CustomException(ErrorCode.KAKAO_FETCH_ACCESS_TOKEN_FAIL);
         }
 
@@ -51,6 +52,7 @@ public class MemberService {
         try {
             response = kakaoOAuthUtil.fetchKakaoUserData(kakaoAccessToken);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new CustomException(ErrorCode.KAKAO_FETCH_USER_DATA_FAIL);
         }
 
