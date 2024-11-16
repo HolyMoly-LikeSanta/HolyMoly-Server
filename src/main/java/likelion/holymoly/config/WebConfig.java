@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final String logUrl = "/log/**";
 
     // 매핑될 로컬 파일 경로
-    private final String logDir = "file:./logs/";
+    private final String logDir = "file:/app/build/libs/logs/";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
