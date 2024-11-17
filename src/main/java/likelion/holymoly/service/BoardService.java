@@ -1,7 +1,6 @@
 package likelion.holymoly.service;
 
 import jakarta.transaction.Transactional;
-import likelion.holymoly.dto.BoardDto;
 import likelion.holymoly.dto.LetterDto;
 import likelion.holymoly.entity.Board;
 import likelion.holymoly.entity.Letter;
@@ -22,22 +21,23 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final LetterRepository letterRepository;
 
-    /**
-     * 멤버가 이미 보유한 보드가 없을 경우 생성
-     */
     public Board createBoardIfNotExists(Member member) {
-        return boardRepository.findByMember(member)
-                .orElseGet(() -> {
-                    Board board = Board.builder()
-                            .member(member)
-                            .build();
-                    return boardRepository.save(board);
-                });
+        // 보유한 보드가 있는지 확인
+        if (boardRepository.findByMember(member).isPresent()) {
+            throw new CustomException(ErrorCode.BOARD_ALREADY_EXISTS); // 이미 존재하면 예외 발생
+        }
+
+        // 없으면 새로 생성
+        Board board = Board.builder()
+                .member(member)
+                .build();
+        return boardRepository.save(board);
     }
 
-    public Letter createLetterByUserId(Long userId, LetterDto letterDto) {
-        // userId를 기반으로 Board 조회
-        Board board = boardRepository.findByMember_Id(userId)
+
+    public Letter createLetterByMemberId(Long memberId, LetterDto letterDto) {
+        // memberId를 기반으로 Board 조회
+        Board board = boardRepository.findByMember_Id(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND)); // 보드가 없을 경우 예외 처리
 
         // 편지 내용 검증
@@ -55,11 +55,10 @@ public class BoardService {
         return letterRepository.save(letter);
     }
 
-
     @Transactional
-    public void deleteLetterByUserId(Long userId, Long letterId) {
-        // userId를 기반으로 Board 조회
-        Board board = boardRepository.findByMember_Id(userId)
+    public void deleteLetterByMemberId(Long memberId, Long letterId) {
+        // memberId를 기반으로 Board 조회
+        Board board = boardRepository.findByMember_Id(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND)); // 보드가 없을 경우 예외
 
         // Letter 조회
@@ -75,12 +74,9 @@ public class BoardService {
         letterRepository.delete(letter);
     }
 
-
-    /**
-     * 사용자 ID를 기반으로 편지 리스트 조회
-     */
-    public List<LetterDto> getLettersByUserId(Long userId) {
-        Board board = boardRepository.findByMember_Id(userId)
+    /** 사용자 ID를 기반으로 편지 리스트 조회 */
+    public List<LetterDto> getLettersByMemberId(Long memberId) {
+        Board board = boardRepository.findByMember_Id(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND)); // 보드가 없을 경우 예외
 
         return board.getLetters().stream()
@@ -90,3 +86,4 @@ public class BoardService {
                 .toList();
     }
 }
+
