@@ -23,6 +23,8 @@ public enum ErrorCode {
     CONTENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "db-005", "편지 내용이 비어 있습니다."),
     LETTER_NOT_FOUND(HttpStatus.NOT_FOUND, "db-006", "DB에서 편지를 찾을 수 없습니다."),
     LETTER_NOT_BELONG_TO_BOARD(HttpStatus.BAD_REQUEST, "db-007", "편지가 지정된 게시판에 속하지 않습니다."),
+    BOARD_ALREADY_EXISTS(HttpStatus.CONFLICT, "db-008", "이미 게시판이 존재합니다."),
+
 
     DUMMY_ERROR_CODE(HttpStatus.OK, "DUMMY", "DUMMY");
 
