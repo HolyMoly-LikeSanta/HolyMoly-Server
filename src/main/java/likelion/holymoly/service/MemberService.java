@@ -12,6 +12,7 @@ import likelion.holymoly.repository.*;
 import likelion.holymoly.utils.JwtProviderUtil;
 import likelion.holymoly.utils.KakaoOAuthUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedHashMap;
 
 @Service
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 public class MemberService {
@@ -43,7 +45,7 @@ public class MemberService {
         try {
             kakaoAccessToken = kakaoOAuthUtil.fetchKakaoAccessToken(request.getCode());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
             throw new CustomException(ErrorCode.KAKAO_FETCH_ACCESS_TOKEN_FAIL);
         }
 
@@ -51,7 +53,7 @@ public class MemberService {
         try {
             response = kakaoOAuthUtil.fetchKakaoUserData(kakaoAccessToken);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
             throw new CustomException(ErrorCode.KAKAO_FETCH_USER_DATA_FAIL);
         }
 
