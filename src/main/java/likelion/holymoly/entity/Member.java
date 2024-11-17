@@ -26,7 +26,7 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Board board;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String kakaoId;
 
     @Column(name = "profile_image", nullable = false)
