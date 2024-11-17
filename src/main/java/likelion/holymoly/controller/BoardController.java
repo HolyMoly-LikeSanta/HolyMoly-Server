@@ -33,65 +33,46 @@ public class BoardController {
         this.memberService = memberService;
     }
 
-    @Operation(summary = "게시판 조회", description = "boardId에 해당하는 게시판의 정보를 조회합니다.")
-    @GetMapping("/{boardId}")
-    public ResponseEntity<BoardDto> getBoardById(@PathVariable Long boardId) {
-        Board board = boardService.getBoardById(boardId);
-
-        // 편지 리스트 변환
-        List<LetterDto> letters = board.getLetters().stream()
-                .map(letter -> new LetterDto(
-                        letter.getBoard().getBoardId(),
-                        letter.getContent(),
-                        letter.getAuthorNickname()))
-                .toList();
-
-        // BoardDto 생성
-        BoardDto boardDto = new BoardDto(
-                board.getBoardId(),
-                board.getMember().getId(),
-                board.getMember().getName(),
-                letters
-        );
-
-        return ResponseEntity.ok(boardDto);
+    @Operation(summary = "게시판의 편지 리스트 조회", description = "userId에 해당하는 게시판의 편지 리스트를 조회합니다.")
+    @GetMapping("/{userId}/letters")
+    public ResponseEntity<List<LetterDto>> getLettersByUserId(@PathVariable Long userId) {
+        List<LetterDto> letterDtos = boardService.getLettersByUserId(userId); // userId를 기반으로 편지 리스트 조회
+        return ResponseEntity.ok(letterDtos);
     }
 
-//    @Operation(summary = "게시판 편지 리스트 조회", description = "boardId에 해당하는 게시판에 게시된 모든 편지들을 조회합니다.")
-//    @GetMapping("/{boardId}/letter")
-//    public ResponseEntity<List<LetterDto>> getAllLettersByBoardId(@PathVariable Long boardId) {
-//        List<Letter> letters = boardService.getAllLettersByBoardId(boardId);
-//        List<LetterDto> letterDtos = letters.stream()
-//                .map(letter -> new LetterDto(letter.getBoard().getBoardId(), letter.getContent(), letter.getAuthorNickname()))
-//                .toList();
-//        return ResponseEntity.ok(letterDtos);
-//    }
-
     @PreAuthorize("isAuthenticated()")
-    @Operation(summary = "게시판 생성", description = "게시판을 생성하고 그 내용을 바탕으로 게시판을 생성합니다.")
-    @PostMapping("/invite")
-    public ResponseEntity<Board> createBoard(@RequestBody BoardDto boardDto, @AuthenticationPrincipal UserDetails userDetails) {
+    @Operation(summary = "게시판 생성", description = "현재 사용자가 소유한 게시판이 없으면 새로 생성합니다.")
+    @PostMapping("/create")
+    public ResponseEntity<Board> createBoard(@AuthenticationPrincipal UserDetails userDetails) {
+        // 현재 인증된 사용자 정보로 멤버 가져오기
         Member myMember = memberService.getMemberByPrincipal(userDetails);
-        Board createdBoard = boardService.createBoard(boardDto, myMember);
+
+        // BoardService에서 이미 존재 여부를 확인하고 처리
+        Board createdBoard = boardService.createBoardIfNotExists(myMember);
+
         return ResponseEntity.ok(createdBoard);
     }
 
-    @Operation(summary = "편지 작성", description = "boardId에 해당하는 게시판에 편지를 게시합니다.")
-    @PostMapping("/{boardId}/letter")
-    public ResponseEntity<Letter> createLetter(@PathVariable Long boardId, @RequestBody LetterDto letterDto) {
-        Letter createdLetter = boardService.createLetter(boardId, letterDto);
+
+    @Operation(summary = "편지 작성", description = "userId에 해당하는 게시판에 편지를 게시합니다.")
+    @PostMapping("/{userId}/letter")
+    public ResponseEntity<Letter> createLetter(@PathVariable Long userId, @RequestBody LetterDto letterDto) {
+        // userId를 사용하여 편지 생성
+        Letter createdLetter = boardService.createLetterByUserId(userId, letterDto);
         return ResponseEntity.ok(createdLetter);
     }
 
-    @Operation(summary = "편지 삭제", description = "보드 ID와 편지 ID로 보드에서 편지를 삭제합니다.")
-    @DeleteMapping("/{boardId}/letter/{letterId}")
-    public ResponseEntity<?> deleteLetter(@PathVariable Long boardId, @PathVariable Long letterId) {
+
+    @Operation(summary = "편지 삭제", description = "userId와 편지 ID를 기반으로 편지를 삭제합니다.")
+    @DeleteMapping("/{userId}/letter/{letterId}")
+    public ResponseEntity<?> deleteLetter(@PathVariable Long userId, @PathVariable Long letterId) {
         try {
-            boardService.deleteLetter(boardId, letterId);
+            boardService.deleteLetterByUserId(userId, letterId);
             return ResponseEntity.ok(Collections.singletonMap("message", "편지가 성공적으로 삭제되었습니다."));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Collections.singletonMap("error", "해당 편지를 찾을 수 없습니다."));
         }
     }
+
 }

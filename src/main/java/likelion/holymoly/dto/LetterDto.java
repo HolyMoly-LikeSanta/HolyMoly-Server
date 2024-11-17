@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LetterDto {
-    private Long boardId;
     private String content;
     private String authorNickname;
 }
