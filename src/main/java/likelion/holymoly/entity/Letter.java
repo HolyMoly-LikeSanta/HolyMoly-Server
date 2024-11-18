@@ -5,9 +5,11 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Letter extends BaseTimeEntity{
+public class Letter extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +17,8 @@ public class Letter extends BaseTimeEntity{
     private Long letterId;
 
     @ManyToOne
-    @JoinColumn(name = "invitation_id", nullable = false)
-    private Board board;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @Column(nullable = false)
     private String content;
@@ -25,8 +27,8 @@ public class Letter extends BaseTimeEntity{
     private String authorNickname;
 
     @Builder
-    public Letter(Board board, String content, String authorNickname) {
-        this.board = board;
+    public Letter(Member member, String content, String authorNickname) {
+        this.member = member;
         this.content = content;
         this.authorNickname = authorNickname;
     }

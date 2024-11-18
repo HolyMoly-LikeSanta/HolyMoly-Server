@@ -14,7 +14,7 @@ public class Face {
     @Column(name = "face_id")
     private Long faceId;
 
-    @Column(name = "face_name", nullable = false)
+    @Column(name = "face_name")
     private String name;
 
     @Column(name = "image_url")
