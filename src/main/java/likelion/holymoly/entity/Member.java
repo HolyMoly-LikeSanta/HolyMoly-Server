@@ -3,6 +3,8 @@ package likelion.holymoly.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -23,12 +25,13 @@ public class Member {
     @Column(nullable = false)
     private String name;
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Board board;
-
     @Column(nullable = false, unique = true)
     private String kakaoId;
 
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Letter> letters;
 }
+

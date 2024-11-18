@@ -14,7 +14,7 @@ public class Clothes {
     @Column(name = "clothes_id")
     private Long clothesId;
 
-    @Column(name = "clothes_name", nullable = false)
+    @Column(name = "clothes_name")
     private String name;
 
     @Column(name = "image_url")

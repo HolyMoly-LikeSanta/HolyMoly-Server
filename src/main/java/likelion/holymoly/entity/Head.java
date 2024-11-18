@@ -14,7 +14,7 @@ public class Head {
     @Column(name = "head_id")
     private Long headId;
 
-    @Column(name = "head_name", nullable = false)
+    @Column(name = "head_name")
     private String name;
 
     @Column(name = "image_url")

@@ -14,7 +14,7 @@ public class Accessory {
     @Column(name = "accessory_id")
     private Long accessoryId;
 
-    @Column(name = "accessory_name", nullable = false)
+    @Column(name = "accessory_name")
     private String name;
 
     @Column(name = "image_url")
