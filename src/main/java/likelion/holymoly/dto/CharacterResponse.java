@@ -17,11 +17,11 @@ public class CharacterResponse {
     public static CharacterResponse getCharacterResponse(Character character) {
         return CharacterResponse.builder()
                 .charId(character.getCharId())
-                .bgId(character.getBackground() != null ? character.getBackground().getBgId() : null)
-                .headId(character.getHead() != null ? character.getHead().getHeadId() : null)
-                .faceId(character.getFace() != null ? character.getFace().getFaceId() : null)
-                .clothesId(character.getClothes() != null ? character.getClothes().getClothesId() : null)
-                .accessoryId(character.getAccessory() != null ? character.getAccessory().getAccessoryId() : null)
+                .bgId(character.getBackgroundId() != null ? character.getBackgroundId() : null)
+                .headId(character.getHeadId() != null ? character.getHeadId() : null)
+                .faceId(character.getFaceId() != null ? character.getFaceId() : null)
+                .clothesId(character.getClothesId() != null ? character.getClothesId() : null)
+                .accessoryId(character.getAccessoryId() != null ? character.getAccessoryId() : null)
                 .build();
     }
 }

@@ -30,12 +30,6 @@ import java.util.LinkedHashMap;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final CharacterRepository characterRepository;
-    private final BackgroundRepository bgRepository;
-    private final HeadRepository headRepository;
-    private final FaceRepository faceRepository;
-    private final ClothesRepository clothesRepository;
-    private final AccessoryRepository accessoryRepository;
-
     private final JwtProviderUtil jwtProviderUtil;
     private final KakaoOAuthUtil kakaoOAuthUtil;
     private final UserDetailsService userDetailsService;
@@ -106,29 +100,19 @@ public class MemberService {
     public Character createMyCharacter(Member member, CharacterItemRequest request) throws CustomException {
         Character myCharacter = Character.builder().build();
         if (request.getBgId() != null) {
-            Background background = bgRepository.findById(request.getBgId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.BACKGROUND_NOT_FOUND));
-            myCharacter.setBackground(background);
+            myCharacter.setBackgroundId(request.getBgId());
         }
         if (request.getHeadId() != null) {
-            Head head = headRepository.findById(request.getHeadId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.HEAD_NOT_FOUND));
-            myCharacter.setHead(head);
+            myCharacter.setHeadId(request.getHeadId());
         }
         if (request.getFaceId() != null) {
-            Face face = faceRepository.findById(request.getFaceId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.FACE_NOT_FOUND));
-            myCharacter.setFace(face);
+            myCharacter.setFaceId(request.getFaceId());
         }
         if (request.getClothesId() != null) {
-            Clothes clothes = clothesRepository.findById(request.getClothesId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.CLOTHES_NOT_FOUND));
-            myCharacter.setClothes(clothes);
+            myCharacter.setClothesId(request.getClothesId());
         }
         if (request.getAccessoryId() != null) {
-            Accessory accessory = accessoryRepository.findById(request.getAccessoryId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.ACCESSORY_NOT_FOUND));
-            myCharacter.setAccessory(accessory);
+            myCharacter.setAccessoryId(request.getAccessoryId());
         }
         characterRepository.save(myCharacter);
         member.setCharacter(myCharacter);
@@ -149,29 +133,19 @@ public class MemberService {
 
     public Character updateMyCharacter(Character myCharacter, CharacterItemRequest request) throws CustomException {
         if (request.getBgId() != null) {
-            Background background = bgRepository.findById(request.getBgId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.BACKGROUND_NOT_FOUND));
-            myCharacter.setBackground(background);
+            myCharacter.setBackgroundId(request.getBgId());
         }
         if (request.getHeadId() != null) {
-            Head head = headRepository.findById(request.getHeadId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.HEAD_NOT_FOUND));
-            myCharacter.setHead(head);
+            myCharacter.setHeadId(request.getHeadId());
         }
         if (request.getFaceId() != null) {
-            Face face = faceRepository.findById(request.getFaceId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.FACE_NOT_FOUND));
-            myCharacter.setFace(face);
+            myCharacter.setFaceId(request.getFaceId());
         }
         if (request.getClothesId() != null) {
-            Clothes clothes = clothesRepository.findById(request.getClothesId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.CLOTHES_NOT_FOUND));
-            myCharacter.setClothes(clothes);
+            myCharacter.setClothesId(request.getClothesId());
         }
         if (request.getAccessoryId() != null) {
-            Accessory accessory = accessoryRepository.findById(request.getAccessoryId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.ACCESSORY_NOT_FOUND));
-            myCharacter.setAccessory(accessory);
+            myCharacter.setAccessoryId(request.getAccessoryId());
         }
         characterRepository.save(myCharacter);
         return myCharacter;

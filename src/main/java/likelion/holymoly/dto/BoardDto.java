@@ -3,7 +3,6 @@ package likelion.holymoly.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import likelion.holymoly.entity.ColorTheme;
 
 import java.util.List;
 

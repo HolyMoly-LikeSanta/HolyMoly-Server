@@ -16,32 +16,22 @@ public class Character extends BaseTimeEntity {
     @Column(name = "char_id")
     private Long charId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bg_id", nullable = false)
-    private Background background;
+    private Long backgroundId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "head_id")
-    private Head head;
+    private Long headId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "face_id")
-    private Face face;
+    private Long faceId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "clothes_id")
-    private Clothes clothes;
+    private Long clothesId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "accessory_id")
-    private Accessory accessory;
+    private Long accessoryId;
 
     @Builder
-    public Character(Background background, Head head, Face face, Clothes clothes, Accessory accessory) {
-        this.background = background;
-        this.head = head;
-        this.face = face;
-        this.clothes = clothes;
-        this.accessory = accessory;
+    public Character(Long backgroundId, Long headId, Long faceId, Long clothesId, Long accessoryId) {
+        this.backgroundId = backgroundId;
+        this.headId = headId;
+        this.faceId = faceId;
+        this.clothesId = clothesId;
+        this.accessoryId = accessoryId;
     }
 }
