@@ -14,7 +14,7 @@ public class Background {
     @Column(name = "bg_id")
     private Long bgId;
 
-    @Column(name = "background_name", nullable = false)
+    @Column(name = "background_name")
     private String name;
 
     @Column(name = "image_url")
