@@ -7,6 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@Table(name = "character_table")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Character extends BaseTimeEntity {
