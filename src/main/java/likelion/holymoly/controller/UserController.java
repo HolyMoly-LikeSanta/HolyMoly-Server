@@ -50,7 +50,9 @@ public class UserController {
 
     @Operation(summary = "캐릭터 생성", description = "자신의 캐릭터가 없다면 캐릭터를 생성합니다.")
     @PostMapping("/me/character")
-    public ResponseEntity<CharacterResponse> createCharacter(CharacterItemRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<CharacterResponse> createCharacter(
+            @Valid @RequestBody CharacterItemRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
         Member myMember = memberService.getMemberByPrincipal(userDetails);
         Character myCharacter = memberService.createMyCharacter(myMember, request);
         CharacterResponse response = CharacterResponse.getCharacterResponse(myCharacter);
@@ -68,7 +70,9 @@ public class UserController {
 
     @Operation(summary = "캐릭터 소품 변경", description = "자신의 캐릭터에 장착된 소품을 변경합니다.")
     @PatchMapping("/me/character")
-    public ResponseEntity<CharacterResponse> updateCharacterEquipment(CharacterItemRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<CharacterResponse> updateCharacterEquipment(
+            @Valid @RequestBody CharacterItemRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
         Member myMember = memberService.getMemberByPrincipal(userDetails);
         Character myCharacter = memberService.getMyCharacter(myMember);
         Character updatedCharacter = memberService.updateMyCharacter(myCharacter, request);
