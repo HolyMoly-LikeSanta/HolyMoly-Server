@@ -98,6 +98,9 @@ public class MemberService {
     }
 
     public Character createMyCharacter(Member member, CharacterItemRequest request) throws CustomException {
+        if (member.getCharacter() != null) {
+            throw new CustomException(ErrorCode.CHARACTER_ALREADY_EXISTS);
+        }
         Character myCharacter = Character.builder().build();
         if (request.getBgId() != null) {
             myCharacter.setBackgroundId(request.getBgId());
