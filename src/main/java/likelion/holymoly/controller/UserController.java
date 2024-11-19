@@ -39,6 +39,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "특정 회원의 캐릭터 정보 조회", description = "특정 회원의 캐릭터 정보를 조회합니다.")
+    @GetMapping("/{memberId}/character")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<CharacterResponse> getCharacterInfoByMemberId(@PathVariable Long memberId) {
+        Member member = memberService.getMemberById(memberId); // Member 조회
+        Character character = memberService.getMyCharacter(member); // Character 조회
+        CharacterResponse response = CharacterResponse.getCharacterResponse(character);
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "카카오 로그인", description = "카카오 로그인을 통해 JWT를 발급합니다.")
     @PostMapping("/login")
     @PreAuthorize("permitAll()")
