@@ -158,4 +158,9 @@ public class MemberService {
         return memberRepository.findByKakaoId(userDetails.getUsername())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
+
+    public Member getMemberById(Long memberId) throws CustomException {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
 }
